@@ -64,10 +64,10 @@ int main()
 int CharacterHealthUpdate(int& health, int& item_impact, int& distance)
 {
   int result_impact;
-if (item_impact < 0)
+if (item_impact < 0 && health > 0)
 {
-	result_impact = health + item_impact;
-	cout << "Your hero healed on : " << item_impact << " And now Character has: " << result_impact << " hp" << endl;
+	result_impact = health - item_impact;
+	cout << "Your hero healed on : " << item_impact / -1 << " And now Character has: " << result_impact << " hp" << endl;
 
 }
 else if (item_impact > 0)
@@ -97,6 +97,11 @@ else if (health = 0)
 {
 	result_impact = health - item_impact;
 	cout << "Dude, your hero died. You can't take any damage " << endl;
+}
+else if (health < 0 && item_impact < 0 && distance < 0)
+{
+	result_impact = health;
+	cout << "Dude, your hero died at start of the game, relax " << endl;
 }
 return health;
 }
