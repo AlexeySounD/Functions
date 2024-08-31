@@ -24,6 +24,8 @@ int main()
 	int ItemImpact;
 	int ItemDistance;
 
+	int DamageResult;
+
 	//CharacterStatus status;
 
 	cout << "Please write a number of Character Health: " << endl;
@@ -35,9 +37,10 @@ int main()
 	cout << "Please write a number of Impact Item Distance: " << endl;
 	cin >> ItemDistance;
 
- 	DistanceCalculation(ItemImpact, ItemDistance);
+	
+	DamageResult = DistanceCalculation(ItemImpact, ItemDistance);
 
-	CharacterHealthUpdate(CharacterHealth, ItemImpact, ItemDistance);
+	CharacterHealthUpdate(CharacterHealth,DamageResult, ItemDistance);
 
 	system("pause");
 }
@@ -67,6 +70,18 @@ if (item_impact < 0)
 	cout << "Your hero healed on : " << item_impact << " And now Character has: " << result_impact << " hp" << endl;
 
 }
+else if (item_impact > 0)
+{
+	result_impact = health - item_impact;
+	cout << "Your hero damaged on : " << item_impact << " And now Character has: " << result_impact << " hp" << endl;
+}
+else if (item_impact >= health)
+{
+	result_impact = health - item_impact;
+	health = 0;
+	cout << "Your hero died" << " And now Character has: " << health << " hp" << endl;
+}
+
 else if (item_impact = 0)
 {
 	result_impact = health + item_impact;
@@ -90,16 +105,16 @@ return health;
 int DistanceCalculation(int& item_impact, int& distance)
 
 {
-	
+	float result_impact; 
 	if(distance > 100)
 	{
 		item_impact = 0;
-		
+		result_impact = item_impact;
 	}
 	else if (distance < 100 || distance >= 0)
 	{
-		item_impact = item_impact * (1 - distance / 100);
+		result_impact = item_impact * (1 - distance / 100.0f);
 	}
 
-	return item_impact;
+	return result_impact;
 }
