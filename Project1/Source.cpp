@@ -5,14 +5,14 @@ using namespace std;
 //Version 1
 enum CharacterState { Healed, Damaged, Dead };
 
-int CharacterHealthUpdate(int& health, int impact, CharacterState state);
-int DistanceCalculation(int impact, int distance);
+int CharacterHealthUpdate(float& health, float impact, CharacterState state);
+int DistanceCalculation(float impact, float distance);
 
 int main()
 {
-    int CharacterHealth;
-    int ItemImpact;
-    int ItemDistance;
+    float CharacterHealth;
+    float ItemImpact;
+    float ItemDistance;
 
     cout << "Please write a number of Character Health: ";
     cin >> CharacterHealth;
@@ -34,7 +34,7 @@ int main()
     return 0;
 }
 
-int CharacterHealthUpdate(int& health, int impact, CharacterState state)
+int CharacterHealthUpdate(float& health, float impact, CharacterState state)
 {
     switch (state)
     {
@@ -63,7 +63,7 @@ int CharacterHealthUpdate(int& health, int impact, CharacterState state)
     return health;
 }
 
-int DistanceCalculation(int impact, int distance)
+int DistanceCalculation(float impact, float distance)
 {
     if (distance > 100)
     {
