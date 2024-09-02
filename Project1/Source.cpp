@@ -1,18 +1,25 @@
 #include <string>
 #include <iostream>
+#include <algorithm>
+
 using namespace std;
 
 //Version 1
-enum CharacterState { Healed, Damaged, Dead };
+enum class CharacterState {
+    Healed,
+    Damaged,
+    Dead,
+};
 
-int CharacterHealthUpdate(int& health, int impact, CharacterState state);
-int DistanceCalculation(int impact, int distance);
+float CharacterHealthUpdate(float Health, float Impact, CharacterState State);
+float DistanceCalculation(float Impact, float Distance, float MaxDistance);
 
 int main()
 {
-    int CharacterHealth;
-    int ItemImpact;
-    int ItemDistance;
+    float CharacterHealth = 100.f;
+    float ItemImpact = 0;
+    float ItemDistance = 0;
+    const float MaxDistance = 100.f;
 
     cout << "Please write a number of Character Health: ";
     cin >> CharacterHealth;
@@ -23,57 +30,50 @@ int main()
     cout << "Please write a number of Impact Item Distance: ";
     cin >> ItemDistance;
 
-    int DistanceResultDamage = DistanceCalculation(ItemImpact, ItemDistance);
+    const float DistanceResultDamage = DistanceCalculation(ItemImpact, ItemDistance, MaxDistance);
 
-    CharacterState state = (DistanceResultDamage < 0) ? Healed :
-        (CharacterHealth <= 0) ? Dead : Damaged;
+    const CharacterState state = (DistanceResultDamage > 0) ? CharacterState::Healed : CharacterState::Damaged;
 
-    CharacterHealthUpdate(CharacterHealth, DistanceResultDamage, state);
+    CharacterHealth = CharacterHealthUpdate(CharacterHealth, DistanceResultDamage, state);
 
     system("pause");
     return 0;
 }
 
-int CharacterHealthUpdate(int& health, int impact, CharacterState state)
+float CharacterHealthUpdate(float Health, float Impact, CharacterState state)
 {
     switch (state)
     {
-    case Healed:
-        health = health + (impact * -1);
-        cout << "Your hero healed by: " << impact * -1 << " And now has: " << health << " hp" << endl;
+    case CharacterState::Healed:
+        Health = Health + (Impact * -1);
+        cout << "Your hero healed by: " << Impact * -1 << " And now has: " << Health << " hp" << endl;
         break;
-    case Damaged:
-        health -= impact;
-        if (health > 0)
+    case CharacterState::Damaged:
+        Health -= Impact;
+        if (Health > 0.f)
         {
-            cout << "Your hero was damaged by: " << impact << " And now has: " << health << " hp" << endl;
+            cout << "Your hero was damaged by: " << Impact << " And now has: " << Health << " hp" << endl;
         }
         else
         {
             cout << "Dude, your hero died. You can't take any more damage." << endl;
         }
         break;
-    case Dead:
-        cout << "Your hero is already dead and cannot take any damage." << endl;
+    case CharacterState::Dead:
+        Health = 0.f;
+        std::cout << "Character forcibly killed" << std::endl;
         break;
     default:
         cout << "Unknown state!" << endl;
         break;
     }
-    return health;
+    return Health;
 }
 
-int DistanceCalculation(int impact, int distance)
+float DistanceCalculation(float Impact, float Distance, float MaxDistance)
 {
-    if (distance > 100)
-    {
-        impact = 0;
-    }
-    else if (distance >= 0 && distance <= 100)
-    {
-        impact = impact * (1 - distance / 100);
-    }
-    return impact;
+    const float ClampedDistance = std::clamp(Distance, 0.f, MaxDistance);
+    return Impact * (1 - ClampedDistance / MaxDistance);
 }
 
 
