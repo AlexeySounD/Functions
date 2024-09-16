@@ -76,7 +76,7 @@ int main() {
     cout << "Thanks for playing! \n";
     system("pause");
 
-    delete &buildings;
+  
     return 0;
 }
 
